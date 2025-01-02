@@ -3,11 +3,11 @@ from tkinter import font
 from math import sin, cos, pi
 from PIL import Image, ImageDraw, ImageTk
 
-WINDOW_SIZE_X = 720
-WINDOW_SIZE_Y = 480
-IMAGE_SIZE_X = 200
-IMAGE_SIZE_Y = 200
-SCALE = -6
+WINDOW_SIZE_X = 800
+WINDOW_SIZE_Y = 600
+IMAGE_SIZE_X = 300
+IMAGE_SIZE_Y = 300
+SCALE = -9
 
 
 #Use parametric equations to model the heart
@@ -42,29 +42,48 @@ def display_heart():
     heart_photo = ImageTk.PhotoImage(heart_img)
     heart_label.config(image=heart_photo)
     heart_label.image = heart_photo  # Keep a reference to avoid garbage collection
+    bad_button.config()
 
+def sad_text():
+    heart_label.config(text="Oh... Okay")
+
+def hide_bad_button():
+    bad_button.grid_forget()
+
+def hide_buttons():
+    bad_button.grid_forget()
+    good_button.grid_forget()
+
+def show_next_button():
+    next_button.grid(row=1, column=1)
+
+def next_view():
+    pass
  
 #Create window
 window = tk.Tk()
 window.title("Happy Valentine's Day")
-window.geometry("720x480")
+window.geometry(f"{WINDOW_SIZE_X}x{WINDOW_SIZE_Y}")
 window.config(bg="#FCCCCC")
 
 font = font.Font(family = "Sylfaen", size = 24)
 
 #Create label
 heart_label = tk.Label(window, text="Happy Valentine's Day", fg = "#ff2971", font=font, bg="#FCCCCC")
-heart_label.pack(pady=100)
+heart_label.pack(pady=30)
 
 #Create a frame for the buttons
 button_frame = tk.Frame(window, bg="#FCCCCC")
 button_frame.pack(pady=50)
 
 #Create button
-good_button = tk.Button(button_frame, text="You Love Me", command=display_heart, bg="#aaa3ff")
+good_button = tk.Button(button_frame, text="You Love Me", command=lambda:[display_heart(), hide_buttons(), show_next_button()], bg="#aaa3ff")
 good_button.grid(row=0, column=0, padx=10)
-bad_button = tk.Button(button_frame, text="You Don't Love Me", bg="#aaa3ff")
-bad_button.grid(row=0, column=1, padx=10)
+bad_button = tk.Button(button_frame, text="You Don't Love Me", command= lambda:[sad_text(), hide_bad_button()], bg="#aaa3ff")
+bad_button.grid(row=0, column=2, padx=10)
+next_button = tk.Button(button_frame, text="Next", command=next_view, bg="#Faa3ff")
+
+
 
 
 if __name__ == '__main__':
