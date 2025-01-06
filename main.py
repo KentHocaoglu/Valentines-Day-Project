@@ -13,36 +13,17 @@ flower_index = 0
 #Use parametric equations to model the heart
 heart_x = lambda t : 16*sin(t)**3
 heart_y = lambda t : 13*cos(t) - 5*cos(2*t) - 2*cos(3*t) - cos(4*t)
-flower_x = lambda t : 6*sin(15*t)*cos(3.7*t)
-flower_y = lambda t : 6*sin(15*t)*sin(3.7*t)
+#flower_x = lambda t : 6*sin(15*t)*cos(3.7*t)
+#flower_y = lambda t : 6*sin(15*t)*sin(3.7*t)
 
 flower_parametrics = [(lambda t : 6*sin(15*t)*cos(3.7*t), lambda t : 6*sin(15*t)*sin(3.7*t)), 
                 (lambda t : 6*sin(16*t)*cos(3.7*t), lambda t : 6*sin(16*t)*sin(3.7*t)),
                 (lambda t : 10*sin(17*t)*cos(14*t), lambda t : 10*sin(14*t)*sin(17*t)),
                 (lambda t : 10*sin(12*t)*cos(14*t), lambda t : 10*sin(14*t)*sin(12*t)),
-                (lambda t : 10*sin(11*t)*cos(14*t), lambda t : 10*sin(17*t)*cos(14*t)),
-                (lambda t : 10*sin(1*t)*cos(14*t), lambda t : 10*sin(7*t)*sin(21*t)),
+                (lambda t : 10*sin(2*t*t)*cos(2*t), lambda t : 10*sin(2*t*t)*sin(2*t)),
+                (lambda t : -10*sin(1*t)*cos(14*t), lambda t : -5*sin(7*t)*sin(21*t)),
                 (lambda t : 10*sin(5*t)*cos(8*t), lambda t : 5*sin(8*t)*sin(24*t))
                 ]
-
-# flower_x = lambda t : 6*sin(15*t)*cos(3.7*t)
-# flower_y = lambda t : 6*sin(15*t)*sin(3.7*t)
-# flower_x = lambda t : 6*sin(16*t)*cos(3.7*t)
-# flower_y = lambda t : 6*sin(16*t)*sin(3.7*t)
-# flower_x = lambda t : 10*sin(17*t)*cos(14*t)
-# flower_y = lambda t : 10*sin(14*t)*sin(17*t)
-
-
-# not flowers but interesting
-# flower_x = lambda t : 10*sin(12*t)*cos(14*t)
-# flower_y = lambda t : 10*sin(14*t)*sin(12*t)
-# flower_x = lambda t : 10*sin(11*t)*cos(14*t)
-# flower_y = lambda t : 10*sin(14*t)*sin(11*t)
-
-# flower_x = lambda t : 10*sin(1*t)*cos(14*t)
-# flower_y = lambda t : 10*sin(7*t)*sin(21*t)
-# flower_x = lambda t : 10*sin(5*t)*cos(8*t)
-# flower_y = lambda t : 5*sin(8*t)*sin(24*t)
 
 
 
@@ -59,7 +40,7 @@ def get_heart_coordinates():
 
 def get_flower_coordinates(index = 0):
     # Return flower coordinates
-    n = 150
+    n = 300
     theta = 0
     flower_x, flower_y = flower_parametrics[index][0], flower_parametrics[index][1]
     flower_coordinates = []
@@ -126,8 +107,6 @@ def next_view():
     else:
         next_button.grid_forget()
 
-
- 
 #Create window
 window = tk.Tk()
 window.title("Happy Valentine's Day")
@@ -150,8 +129,6 @@ good_button.grid(row=0, column=0, padx=10)
 bad_button = tk.Button(button_frame, text="You Don't Love Me", command= lambda:[sad_text(), hide_bad_button()], bg="#aaa3ff")
 bad_button.grid(row=0, column=2, padx=10)
 next_button = tk.Button(button_frame, text="Next", command=next_view, bg="#Faa3ff")
-
-
 
 
 if __name__ == '__main__':
