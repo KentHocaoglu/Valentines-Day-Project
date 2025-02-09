@@ -60,6 +60,13 @@ def create_heart_image():
     draw.text(text_position, text, fill="white")
     return img
 
+def create_heart_image_without_text():
+    #Create the heart
+    img = Image.new("RGB", (IMAGE_SIZE_X, IMAGE_SIZE_Y), "#FCCCCC")
+    draw = ImageDraw.Draw(img)
+    draw.polygon(get_heart_coordinates(), fill="#ff2971", outline="black")
+    return img
+
 def create_image(coordinates, text = ""):
     #Create the heart
     img = Image.new("RGB", (IMAGE_SIZE_X, IMAGE_SIZE_Y), "#FCCCCC")
@@ -78,6 +85,13 @@ def display_heart():
     heart_label.config(image=heart_photo)
     heart_label.image = heart_photo  # Keep a reference to avoid garbage collection
 
+def display_heart_on(label):
+    #Turn the heart image into a label
+    heart_img = create_heart_image_without_text()
+    heart_photo = ImageTk.PhotoImage(heart_img)
+    label.config(image=heart_photo)
+    label.image = heart_photo  # Keep a reference to avoid garbage collection
+
 def display_flower(index):
     flower_img = create_image(get_flower_coordinates(index))
     flower_photo = ImageTk.PhotoImage(flower_img)
@@ -85,10 +99,13 @@ def display_flower(index):
     heart_label.image = flower_photo
 
 def sad_text():
-    heart_label.config(text="Oh... Okay")
+    heart_label.config(text="Oh...")
 
 def hide_bad_button():
     bad_button.grid_forget()
+
+def change_good_button_text():
+    good_button.config(text="Okay... Fine")
 
 def hide_buttons():
     bad_button.grid_forget()
@@ -105,7 +122,19 @@ def next_view():
     if flower_index < len(flower_parametrics)-1:
         flower_index += 1
     else:
-        next_button.grid_forget()
+        clear_all_inside_frame()
+        global window
+        heart_label = tk.Label(window, text="I love you with all my heart", fg = "#ff2971", font=font, bg="#FCCCCC")
+        heart_label.pack(pady=30)
+        label = tk.Label(window, fg = "#ff2971", font=font, bg="#FCCCCC")
+        label.pack(pady=30)
+        display_heart_on(label)
+
+def clear_all_inside_frame():
+    # Iterate through every widget inside the frame
+    for widget in window.winfo_children():
+        widget.destroy()  # deleting widget
+
 
 #Create window
 window = tk.Tk()
@@ -116,7 +145,7 @@ window.config(bg="#FCCCCC")
 font = font.Font(family = "Sylfaen", size = 24)
 
 #Create label
-heart_label = tk.Label(window, text="Happy Valentine's Day", fg = "#ff2971", font=font, bg="#FCCCCC")
+heart_label = tk.Label(window, text="Happy Valentine's Day!\n\nWill you be my Valentine?", fg = "#ff2971", font=font, bg="#FCCCCC")
 heart_label.pack(pady=30)
 
 #Create a frame for the buttons
@@ -124,10 +153,10 @@ button_frame = tk.Frame(window, bg="#FCCCCC")
 button_frame.pack(pady=50)
 
 #Create button
-good_button = tk.Button(button_frame, text="You Love Me", command=lambda:[display_heart(), hide_buttons(), show_next_button()], bg="#aaa3ff")
-good_button.grid(row=0, column=0, padx=10)
-bad_button = tk.Button(button_frame, text="You Don't Love Me", command= lambda:[sad_text(), hide_bad_button()], bg="#aaa3ff")
-bad_button.grid(row=0, column=2, padx=10)
+good_button = tk.Button(button_frame, text="Yes!", command=lambda:[display_heart(), hide_buttons(), show_next_button()], bg="#aaa3ff")
+good_button.grid(row=0, column=0, padx=20)
+bad_button = tk.Button(button_frame, text="No", command= lambda:[sad_text(), hide_bad_button(), change_good_button_text()], bg="#aaa3ff")
+bad_button.grid(row=0, column=2, padx=20)
 next_button = tk.Button(button_frame, text="Next", command=next_view, bg="#Faa3ff")
 
 
